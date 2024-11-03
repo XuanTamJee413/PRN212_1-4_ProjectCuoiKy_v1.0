@@ -1,0 +1,14 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=TAMJEE\\SQLEXPRESS;Initial Catalog=EnglishVocabularyQuiz; Trusted_Connection=SSPI;Encrypt=false;User ID=sa;Password=123456;TrustServerCertificate=true",
+    "OtherConnection": "server=TAMJEE\\SQLEXPRESS;database=EnglishVocabularyQuiz;Trusted_connection=true;TrustServerCertificate=true"
+  },
+  "exclude": [
+    "**/bin",
+    "**/bower_components",
+    "**/jspm_packages",
+    "**/node_modules",
+    "**/obj",
+    "**/platforms"
+  ]
+}
