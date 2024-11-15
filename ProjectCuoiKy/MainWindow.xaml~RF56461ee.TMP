@@ -38,7 +38,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="txtCoursesLabel" Text="Danh Sách Course:" Margin="10,20,0,0"/>
-                <DataGrid x:Name="dgCourses" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectedCellsChanged="dgCourses_SelectedCellsChanged">
+                <Button Name="btnAddASet" Margin="0,15,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" >Thêm học phần</Button>
+                <DataGrid x:Name="dgCourses" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectionChanged="dgCourses_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding CourseId}" Width="25"/>
                         <DataGridTextColumn Header="Course Name" Binding="{Binding CourseName}" Width="5*"/>
@@ -53,30 +54,40 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,40,0,0">
+                <StackPanel Grid.Column="1" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Course Id" Width="100"/>
-                        <TextBox Name="txtCourseId" Width="200"/>
+                        <Label Content="Id" Width="60"/>
+                        <TextBox Name="txtId" Width="200"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Course Name" Width="100"/>
-                        <TextBox Name="txtCourseName" Width="200"/>
+                        <Label Content="Name" Width="60"/>
+                        <TextBox Name="txtName" Width="200"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Created By" Width="100"/>
-                        <ComboBox x:Name="cbxCourseCreadtedBy" Width="200"/>
+                        <Label Content="Gender" Width="60"/>
+                        <CheckBox Name="chkGender" Content="Male/Female" Width="200" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Departmenttt" Width="60"/>
+                        <ComboBox x:Name="cbxDepart" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="DOB" Width="60"/>
+                        <DatePicker Name="dpkDob" Width="200" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="GPA" Width="60"/>
+                        <TextBox Name="txtGpa" Width="200"/>
                     </StackPanel>
                     <Grid Margin="0,10,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Name="btnViewCourse" Content="View Details" Width="70" Click="btnViewCourse_Click"/>
-                        <Button Grid.Column="1" Name="btnInsertCourse" Content="Insert" Width="70" Click="btnInsertCourse_Click"/>
-                        <Button Grid.Column="2" Name="btnUpdateCourse" Content="Update" Width="70" Click="btnUpdateCourse_Click"/>
-                        <Button Grid.Column="3" Name="btnDeleteCourse" Content="Delete" Width="70" Click="btnDeleteCourse_Click"/>
+                        <Button Grid.Column="0" Name="btnInsertCourse" Content="Insert" Width="50" Click="btnInsertCourse_Click"/>
+                        <Button Grid.Column="1" Name="btnUpdateCourse" Content="Update" Width="50" Click="btnUpdateCourse_Click"/>
+                        <Button Grid.Column="2" Name="btnDeleteCourse" Content="Delete" Width="50" Click="btnDeleteCourse_Click"/>
                     </Grid>
                 </StackPanel>
             </Grid>
@@ -88,6 +99,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="txtQuizzesLabel" Text="Danh Sách Test:" Margin="10,20,0,0"/>
+                <Button Name="btnAddATest" Margin="0,15,10,0" HorizontalAlignment="Right" VerticalAlignment="Top" >Thêm bài kiểm tra</Button>
                 <DataGrid x:Name="dgQuizzes" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectionChanged="dgQuizzes_SelectionChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding TestId}" Width="25"/>
@@ -102,33 +114,10 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
-
-                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,40,0,0">
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Test Id" Width="100"/>
-                        <TextBox Name="txtTestId" Width="200"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Test Name" Width="100"/>
-                        <ComboBox x:Name="cbxTestName" Width="200"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Created By" Width="100"/>
-                        <ComboBox x:Name="cbxTestCreadtedBy" Width="200"/>
-                    </StackPanel>
-                    <Grid Margin="0,10,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Name="btnViewTest" Content="View Details" Width="70" Click="btnViewTest_Click"/>
-                        <Button Grid.Column="1" Name="btnInsertTest" Content="Insert" Width="70" Click="btnInsertTest_Click"/>
-                        <Button Grid.Column="2" Name="btnUpdateTest" Content="Update" Width="70" Click="btnUpdateTest_Click"/>
-                        <Button Grid.Column="3" Name="btnDeleteTest" Content="Delete" Width="70" Click="btnDeleteTest_Click"/>
-                    </Grid>
-                </StackPanel>
+                
+                <Grid Grid.Column="1">
+                    
+                </Grid>
             </Grid>
         </Grid>
     </ScrollViewer>
