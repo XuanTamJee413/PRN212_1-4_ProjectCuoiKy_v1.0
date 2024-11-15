@@ -29,6 +29,8 @@ namespace ProjectCuoiKy
             LoadDB();
             LoadUser();
             LoadCourse();
+            Admin admin = new Admin();
+            admin.Show();
         }
         private void LoadDB()
         {
@@ -69,7 +71,7 @@ namespace ProjectCuoiKy
             cbxTestName.SelectedIndex = 0;
         }
 
-        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             Login loginWindow = new Login();
             loginWindow.ShowDialog();
@@ -80,83 +82,33 @@ namespace ProjectCuoiKy
             if (c != null) { 
                 txtCourseId.Text = c.CourseId.ToString();
                 txtCourseName.Text = c.CourseName;
-                cbxCourseCreadtedBy.SelectedValue = c.CreatorId;
+                cbxCourseCreadtedBy.SelectedValue = Prn212quizDbContext.Ins.Users.FirstOrDefault(s => s.UserId.Equals(c.CreatorId)).Username;
             }
-        }
-
-        private void lstCourses_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (dgCourses.SelectedItem != null)
+            else
             {
-                string selectedCourseName = dgCourses.SelectedItem.ToString();
-                var course = Prn212quizDbContext.Ins.Courses.FirstOrDefault(c => c.CourseName == selectedCourseName);
-
-                if (course != null)
-                {
-                    // Lấy các bài kiểm tra của học phần được chọn
-                    var quizzes = Prn212quizDbContext.Ins.Tests
-                        .Where(t => t.CourseId == course.CourseId)
-                        .ToList();
-
-                    dgQuizzes.Items.Clear(); // Xóa các bài kiểm tra cũ
-                    foreach (var quiz in quizzes)
-                    {
-                        dgQuizzes.Items.Add(quiz.TestKey);
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Không tìm thấy học phần.");
-                }
+                MessageBox.Show("Không tìm thấy Course!");
             }
         }
 
-        private void lstQuizzes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void dgQuizzes_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            if (dgQuizzes.SelectedItem != null)
+            Test t = dgQuizzes.SelectedItem as Test;
+            if (t != null)
             {
-                string selectedQuizKey = dgQuizzes.SelectedItem.ToString();
-                var quiz = Prn212quizDbContext.Ins.Tests
-                    .FirstOrDefault(t => t.TestKey == selectedQuizKey);
-
-                if (quiz != null)
-                {
-                    // Lấy danh sách các câu hỏi trong bài kiểm tra
-                    var studentAnswers = Prn212quizDbContext.Ins.StudentAnswers
-                        .Where(sa => sa.TestId == quiz.TestId)
-                        .ToList();
-
-                    foreach (var sa in studentAnswers)
-                    {
-                        var term = Prn212quizDbContext.Ins.Terms
-                            .FirstOrDefault(t => t.TermId == sa.TermId);
-
-                        MessageBox.Show($"Thuật ngữ: {term.TermText}, Câu trả lời: {sa.ChosenAnswer}, Đúng/Sai: {sa.IsCorrect}");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Không tìm thấy Bài kiểm tra");
-                }
+                txtTestId.Text = t.TestId.ToString();
+                cbxTestName.SelectedValue = Prn212quizDbContext.Ins.Courses.FirstOrDefault(s => s.CourseId.Equals(t.CourseId)).CourseName;
+                cbxTestCreadtedBy.SelectedValue = Prn212quizDbContext.Ins.Users.FirstOrDefault(s => s.UserId.Equals(t.CreatorId)).Username;
+                chkTimerEnabled.IsChecked = t.TimerEnabled;
+                txtTestKey.Text = t.TestKey.ToString();
+            }
+            else
+            {
+                MessageBox.Show("Không tìm thấy Quiz!");
             }
         }
 
-        private void dgCourses_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void dgQuizzes_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void btnQuizDetail_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnSetDetail_Click(object sender, RoutedEventArgs e)
+        //Event cho Course
+        private void btnViewCourse_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -176,11 +128,7 @@ namespace ProjectCuoiKy
 
         }
 
-        private void btnViewCourse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        // event cho test
         private void btnViewTest_Click(object sender, RoutedEventArgs e)
         {
 
@@ -200,5 +148,7 @@ namespace ProjectCuoiKy
         {
 
         }
+
+
     }
 }

@@ -5,8 +5,79 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectCuoiKy"
         mc:Ignorable="d"
-        Title="Admin" Height="720" Width="1080">
-    <Grid>
-        
-    </Grid>
+        Title="Admin" Height="720" Width="1080"
+        Loaded="Window_Loaded">
+    <ScrollViewer>
+        <Grid Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*" />
+                <ColumnDefinition Width="2*" MaxWidth="1080"/>
+                <ColumnDefinition Width="0.1*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10" />
+                <RowDefinition Height="0.25*" MinHeight="75" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" MinHeight="200"/>
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+
+            <!--Khối thông tin người dùng và các nút-->
+            <Grid Grid.Column="1" Grid.Row="1" Background="White">
+                <Label x:Name="lblUserName" Content="Bạn chưa đăng nhập" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="btnLogout" Content="Logout" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="btnLogout_Click"/>
+            </Grid>
+
+            <!--Khối Người dùng-->
+            <Grid Grid.Column="1" Grid.Row="3" Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="txtUserLabel" Text="Danh Sách User:" Margin="10,20,0,0"/>
+                    <DataGrid x:Name="dgUser" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectedCellsChanged="dgUser_SelectedCellsChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding UserId}" Width="25"/>
+                            <DataGridTextColumn Header="User Name" Binding="{Binding Username}" Width="5*"/>
+                            <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="*"/>
+                            <DataGridCheckBoxColumn Header="Is Active" Binding="{Binding IsActive}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,40,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="User Id" Width="100"/>
+                        <TextBox Name="txtUserId" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="User Name" Width="100"/>
+                        <TextBox Name="txtUserName" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Role" Width="100" />
+                        <StackPanel Orientation="Horizontal" Width="300" VerticalAlignment="Center">
+                            <RadioButton x:Name="rbtnStudent" Content="Student" GroupName="RoleGroup" Margin="0,0,10,0" IsChecked="True"/>
+                            <RadioButton x:Name="rbtnTeacher" Content="Teacher" GroupName="RoleGroup" Margin="0,0,10,0" />
+                            <RadioButton x:Name="rbtnAdmin" Content="Admin" GroupName="RoleGroup" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Is Active" Width="100"/>
+                        <CheckBox Name="chkIsActive" Content="Active/Inactive" Width="200" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Grid Margin="0,10,10,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Name="btnInsertUser" Content="Insert" Width="100" Click="btnInsertUser_Click"/>
+                        <Button Grid.Column="1" Name="btnUpdateUser" Content="Update" Width="100" Click="btnUpdateUser_Click"/>
+                        <Button Grid.Column="2" Name="btnDeleteUser" Content="Delete" Width="100" Click="btnDeleteUser_Click"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </ScrollViewer>
 </Window>
