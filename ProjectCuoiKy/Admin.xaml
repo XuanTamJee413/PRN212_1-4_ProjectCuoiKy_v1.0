@@ -6,12 +6,13 @@
         xmlns:local="clr-namespace:ProjectCuoiKy"
         mc:Ignorable="d"
         Title="Admin" Height="720" Width="1080"
-        Loaded="Window_Loaded">
+        Loaded="Window_Loaded"
+        WindowStartupLocation="CenterScreen">
     <ScrollViewer>
         <Grid Background="LightGray">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.1*" />
-                <ColumnDefinition Width="2*" MaxWidth="1080"/>
+                <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="0.1*" />
             </Grid.ColumnDefinitions>
 
@@ -25,7 +26,9 @@
 
             <!--Khối thông tin người dùng và các nút-->
             <Grid Grid.Column="1" Grid.Row="1" Background="White">
-                <Label x:Name="lblUserName" Content="Bạn chưa đăng nhập" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblUserName" FontWeight="Bold" Content="Admin: " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <Label x:Name="lblStatusMessage" HorizontalAlignment="Center" VerticalAlignment="Bottom" Foreground="Red" Margin="10" Visibility="Collapsed"/>
+
                 <Button x:Name="btnLogout" Content="Logout" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="btnLogout_Click"/>
             </Grid>
 
@@ -36,7 +39,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="txtUserLabel" Text="Danh Sách User:" Margin="10,20,0,0"/>
-                    <DataGrid x:Name="dgUser" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectedCellsChanged="dgUser_SelectedCellsChanged">
+                    <DataGrid x:Name="dgUser" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectedCellsChanged="dgUser_SelectedCellsChanged"
+                              MaxHeight="450" ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID" Binding="{Binding UserId}" Width="25"/>
                             <DataGridTextColumn Header="User Name" Binding="{Binding Username}" Width="5*"/>
@@ -47,7 +51,7 @@
                 <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,40,0,0">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                         <Label Content="User Id" Width="100"/>
-                        <TextBox Name="txtUserId" Width="200"/>
+                        <TextBox Name="txtUserId" Width="200" IsEnabled="False"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                         <Label Content="User Name" Width="100"/>
@@ -63,7 +67,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                         <Label Content="Is Active" Width="100"/>
-                        <CheckBox Name="chkIsActive" Content="Active/Inactive" Width="200" VerticalAlignment="Center"/>
+                        <CheckBox Name="chkIsActive" IsChecked="True" Content="Active/Inactive" Width="200" VerticalAlignment="Center"/>
                     </StackPanel>
                     <Grid Margin="0,10,10,0">
                         <Grid.ColumnDefinitions>
@@ -77,7 +81,6 @@
                     </Grid>
                 </StackPanel>
             </Grid>
-
         </Grid>
     </ScrollViewer>
 </Window>

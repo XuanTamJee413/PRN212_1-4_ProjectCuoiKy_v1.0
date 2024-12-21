@@ -11,7 +11,7 @@ public partial class TestResult
 
     public int StudentId { get; set; }
 
-    public int? Score { get; set; }
+    public decimal? Score { get; set; }
 
     public DateTime? CompletionTime { get; set; }
 

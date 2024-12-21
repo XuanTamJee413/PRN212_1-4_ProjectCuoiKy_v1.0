@@ -1,0 +1,131 @@
+﻿<Window x:Class="ProjectCuoiKy.Teacher"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProjectCuoiKy"
+        mc:Ignorable="d"
+        Title="Teacher" Height="720" Width="1080">
+    <ScrollViewer>
+        <Grid Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*" />
+                <ColumnDefinition Width="2*" MaxWidth="1080"/>
+                <ColumnDefinition Width="0.1*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10" />
+                <RowDefinition Height="0.5*" MinHeight="75" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" MinHeight="200"/>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" MinHeight="200"/>
+                <RowDefinition Height="20" />
+            </Grid.RowDefinitions>
+
+            <!--Khối thông tin người dùng và các nút-->
+            <Grid Grid.Column="1" Grid.Row="1" Background="White">
+                <Label x:Name="lblUserName" Content="Bạn chưa đăng nhập" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="btnLogin" Content="Đăng Nhập" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="btnLogin_Click"/>
+            </Grid>
+
+            <!--Khối học phần hiện có-->
+            <Grid Grid.Column="1" Grid.Row="3" Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="txtCoursesLabel" Text="Danh Sách Course:" Margin="10,20,0,0"/>
+                <DataGrid x:Name="dgCourses" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectedCellsChanged="dgCourses_SelectedCellsChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding CourseId}" Width="25"/>
+                        <DataGridTextColumn Header="Course Name" Binding="{Binding CourseName}" Width="5*"/>
+                        <DataGridTextColumn Header="Created By" Binding="{Binding Creator.Username}" Width="*"/>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,40,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Course Id" Width="100"/>
+                        <TextBox Name="txtCourseId" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Course Name" Width="100"/>
+                        <TextBox Name="txtCourseName" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Created By" Width="100"/>
+                        <ComboBox x:Name="cbxCourseCreadtedBy" Width="200"/>
+                    </StackPanel>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Name="btnViewCourse" Content="View Details" Width="70" Click="btnViewCourse_Click"/>
+                        <Button Grid.Column="1" Name="btnInsertCourse" Content="Insert" Width="70" Click="btnInsertCourse_Click"/>
+                        <Button Grid.Column="2" Name="btnUpdateCourse" Content="Update" Width="70" Click="btnUpdateCourse_Click"/>
+                        <Button Grid.Column="3" Name="btnDeleteCourse" Content="Delete" Width="70" Click="btnDeleteCourse_Click"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+
+            <!--Khối bài kiểm tra-->
+            <Grid Grid.Column="1" Grid.Row="5" Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="txtQuizzesLabel" Text="Danh Sách Test:" Margin="10,20,0,0"/>
+                <DataGrid x:Name="dgQuizzes" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectedCellsChanged="dgQuizzes_SelectedCellsChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding TestId}" Width="25"/>
+                        <DataGridTextColumn Header="Test Name" Binding="{Binding Course.CourseName}" Width="5*"/>
+                        <DataGridTextColumn Header="Created By" Binding="{Binding Creator.Username}" Width="*"/>
+                        <DataGridCheckBoxColumn Header="Timer Enabled" Binding="{Binding TimerEnabled}" Width="*"/>
+                        <DataGridTextColumn Header="Test Key" Binding="{Binding TestKey}" Width="2*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,40,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Test Id" Width="100"/>
+                        <TextBox Name="txtTestId" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Test Name" Width="100"/>
+                        <ComboBox x:Name="cbxTestName" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Created By" Width="100"/>
+                        <ComboBox x:Name="cbxTestCreadtedBy" Width="200"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Timer Enabled" Width="100"/>
+                        <CheckBox Name="chkTimerEnabled" Content="Enable/Disable" Width="200" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                        <Label Content="Test Key" Width="100"/>
+                        <TextBox Name="txtTestKey" Width="200"/>
+                    </StackPanel>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Name="btnViewTest" Content="View Details" Width="70" Click="btnViewTest_Click"/>
+                        <Button Grid.Column="1" Name="btnInsertTest" Content="Insert" Width="70" Click="btnInsertTest_Click"/>
+                        <Button Grid.Column="2" Name="btnUpdateTest" Content="Update" Width="70" Click="btnUpdateTest_Click"/>
+                        <Button Grid.Column="3" Name="btnDeleteTest" Content="Delete" Width="70" Click="btnDeleteTest_Click"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
+</Window>

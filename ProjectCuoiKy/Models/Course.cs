@@ -13,7 +13,5 @@ public partial class Course
 
     public virtual User Creator { get; set; } = null!;
 
-    public virtual ICollection<Term> Terms { get; set; } = new List<Term>();
-
     public virtual ICollection<Test> Tests { get; set; } = new List<Test>();
 }

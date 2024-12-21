@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:ProjectCuoiKy"
         mc:Ignorable="d"
         Title="MainWindow" Height="720" Width="1080"
+        WindowStartupLocation="CenterScreen"
         Loaded="Window_Loaded">
     <ScrollViewer>
         <Grid Background="LightGray">
@@ -28,7 +29,10 @@
              <!--Khối thông tin người dùng và các nút--> 
             <Grid Grid.Column="1" Grid.Row="1" Background="White">
                 <Label x:Name="lblUserName" Content="Bạn chưa đăng nhập" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Button x:Name="btnLogin" Content="Đăng Nhập" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="btnLogin_Click"/>
+                <Button x:Name="btnLogin" Content="Login" Width="70"  HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Click="btnLogin_Click"/>
+                <Button x:Name="btnLoginAsAdmin" Content="Admin" Width="70"  HorizontalAlignment="Right" Margin="0,0,100,10" VerticalAlignment="Bottom" Click="btnLoginAsAdmin_Click"/>
+                <Button x:Name="btnLoginAsTeacher" Content="Teacher" Width="70"  HorizontalAlignment="Right" Margin="0,0,200,10" VerticalAlignment="Bottom" Click="btnLoginAsTeacher_Click"/>
+                <Button x:Name="btnLoginAsStudent" Content="Student" Width="70"  HorizontalAlignment="Right" Margin="0,0,300,10" VerticalAlignment="Bottom" Click="btnLoginAsStudent_Click"/>
             </Grid>
 
              <!--Khối học phần hiện có--> 
@@ -38,92 +42,62 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Name="txtCoursesLabel" Text="Danh Sách Course:" Margin="10,20,0,0"/>
-                <DataGrid x:Name="dgCourses" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectedCellsChanged="dgCourses_SelectedCellsChanged">
+                <DataGrid x:Name="dgCourses" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False"    >
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding CourseId}" Width="25"/>
                         <DataGridTextColumn Header="Course Name" Binding="{Binding CourseName}" Width="5*"/>
                         <DataGridTextColumn Header="Created By" Binding="{Binding Creator.Username}" Width="*"/>
-                        
                     </DataGrid.Columns>
                 </DataGrid>
 
                 <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,40,0,0">
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Course Id" Width="100"/>
-                        <TextBox Name="txtCourseId" Width="200"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Course Name" Width="100"/>
-                        <TextBox Name="txtCourseName" Width="200"/>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Created By" Width="100"/>
-                        <ComboBox x:Name="cbxCourseCreadtedBy" Width="200"/>
-                    </StackPanel>
-                    <Grid Margin="0,10,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Name="btnViewCourse" Content="View Details" Width="70" Click="btnViewCourse_Click"/>
-                        <Button Grid.Column="1" Name="btnInsertCourse" Content="Insert" Width="70" Click="btnInsertCourse_Click"/>
-                        <Button Grid.Column="2" Name="btnUpdateCourse" Content="Update" Width="70" Click="btnUpdateCourse_Click"/>
-                        <Button Grid.Column="3" Name="btnDeleteCourse" Content="Delete" Width="70" Click="btnDeleteCourse_Click"/>
-                    </Grid>
+                    
                 </StackPanel>
             </Grid>
 
-             <!--Khối bài kiểm tra--> 
+            <!--Khối bài kiểm tra-->
             <Grid Grid.Column="1" Grid.Row="5" Background="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="txtQuizzesLabel" Text="Danh Sách Test:" Margin="10,20,0,0"/>
-                <DataGrid x:Name="dgQuizzes" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectedCellsChanged="dgQuizzes_SelectedCellsChanged">
+                <TextBlock x:Name="txtTestLabel" Text="Danh Sách Quiz Ôn Tập:" Margin="10,20,0,0"/>
+                <DataGrid x:Name="dgTests" Margin="10,40,10,10" AutoGenerateColumns="False" CanUserAddRows="False" SelectedCellsChanged="dgTests_SelectedCellsChanged">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding TestId}" Width="25"/>
-                        <DataGridTextColumn Header="Test Name" Binding="{Binding Course.CourseName}" Width="5*"/>
-                        <DataGridTextColumn Header="Created By" Binding="{Binding Creator.Username}" Width="*"/>
-                        <DataGridCheckBoxColumn Header="Timer Enabled" Binding="{Binding TimerEnabled}" Width="*"/>
-                        <DataGridTextColumn Header="Test Key" Binding="{Binding TestKey}" Width="2*"/>
+                        <DataGridTextColumn Header="Test Name" Binding="{Binding TestName}" Width="4*"/>
+                        <DataGridTextColumn Header="Course" Binding="{Binding Course.CourseName}" Width="1.5*"/>
+                        <DataGridTextColumn Header="Created" Binding="{Binding Creator.Username}" Width="1.5*"/>
+                        <DataGridCheckBoxColumn Header="Status" Binding="{Binding Status}" Width="*"/>
                     </DataGrid.Columns>
                 </DataGrid>
 
                 <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,40,0,0">
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                         <Label Content="Test Id" Width="100"/>
-                        <TextBox Name="txtTestId" Width="200"/>
+                        <TextBox Name="txtTestId" Width="200" IsReadOnly="True"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
                         <Label Content="Test Name" Width="100"/>
-                        <ComboBox x:Name="cbxTestName" Width="200"/>
+                        <TextBox Name="txtTestName" Width="200" IsReadOnly="True"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Created By" Width="100"/>
-                        <ComboBox x:Name="cbxTestCreadtedBy" Width="200"/>
+                        <Label Content="Course Name" Width="100"/>
+                        <TextBox x:Name="txtCourseName" Width="200" IsReadOnly="True"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Timer Enabled" Width="100"/>
-                        <CheckBox Name="chkTimerEnabled" Content="Enable/Disable" Width="200" VerticalAlignment="Center"/>
+                        <Label Content="Created By" Width="100" />
+                        <TextBox x:Name="txtTestCreadtedBy" Width="200" IsReadOnly="True"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                        <Label Content="Test Key" Width="100"/>
-                        <TextBox Name="txtTestKey" Width="200"/>
+                        <Label Content="Status" Width="100"/>
+                        <Label Name="lblStatus" Content="--" Width="200"/>
                     </StackPanel>
-                    <Grid Margin="0,10,0,0">
+                    <Grid Margin="0,10,0,10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Name="btnViewTest" Content="View Details" Width="70" Click="btnViewTest_Click"/>
-                        <Button Grid.Column="1" Name="btnInsertTest" Content="Insert" Width="70" Click="btnInsertTest_Click"/>
-                        <Button Grid.Column="2" Name="btnUpdateTest" Content="Update" Width="70" Click="btnUpdateTest_Click"/>
-                        <Button Grid.Column="3" Name="btnDeleteTest" Content="Delete" Width="70" Click="btnDeleteTest_Click"/>
+                        <Button Grid.Column="0" Name="btnViewQuestion" Content="Ôn Tập Quiz" Width="150" Click="btnViewQuestion_Click"/>
                     </Grid>
                 </StackPanel>
             </Grid>

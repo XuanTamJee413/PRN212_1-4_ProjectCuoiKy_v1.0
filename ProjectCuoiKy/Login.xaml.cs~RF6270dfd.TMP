@@ -21,11 +21,9 @@ namespace ProjectCuoiKy
     /// </summary>
     public partial class Login : Window
     {
-        private MainWindow mainWindow;
-        public Login(MainWindow mainWindow)
+        public Login()
         {
             InitializeComponent();
-            this.mainWindow = mainWindow;
         }
 
         private async void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -42,12 +40,9 @@ namespace ProjectCuoiKy
             {
                 try
                 {
-                    var user = Prn212examContext.Ins.Users.FirstOrDefault(u => u.Username == username && u.Password == password);
-                    if (user.IsActive == false)
-                    {
-                        MessageBox.Show("Bạn khôn có quyền đăng nhập vào hệ thống, liên hệ Admin: 0912345678 hoặc admin@fpt.edu.vn");
-                        return;
-                    }
+                    var user = await Prn212quizDbContext.Ins.Users
+                        .FirstOrDefaultAsync(u => u.Username == username && u.Password == password);
+
                     if (user != null)
                     {
                         txbErrorMessage.Text = "";
@@ -56,22 +51,25 @@ namespace ProjectCuoiKy
 
                         if (user.Role == "Student")
                         {
-                            Student studentWindow = new Student(user);
+                            Student studentWindow = new Student();
                             studentWindow.Show();
+                            MainWindow mainWindow = new MainWindow();
                             mainWindow.Close();
                             this.Close();
                         }
                         else if (user.Role == "Teacher")
                         {
-                            Teacher teacherWindow = new Teacher(user);
+                            Teacher teacherWindow = new Teacher();
                             teacherWindow.Show();
+                            MainWindow mainWindow = new MainWindow();
                             mainWindow.Close();
                             this.Close();
                         }
                         else if (user.Role == "Admin")
                         {
-                            Admin adminWindow = new Admin(user);
+                            Admin adminWindow = new Admin();
                             adminWindow.Show();
+                            MainWindow mainWindow = new MainWindow();
                             mainWindow.Close();
                             this.Close();
                         }
@@ -98,7 +96,7 @@ namespace ProjectCuoiKy
             txbUsername.Clear();
             txbPassword.Clear();
             txbSuccessMessage.Text = "";
-            txbErrorMessage.Text = "Đã clear!! Nhập thông tin đăng nhập";
+            txbErrorMessage.Text = "Nhập thông tin đăng nhập";
             await Task.Delay(1000);
             txbErrorMessage.Text = "";
         }

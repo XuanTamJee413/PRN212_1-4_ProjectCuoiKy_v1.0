@@ -27,16 +27,11 @@ namespace ProjectCuoiKy
         public void Window_Loaded(object sender, RoutedEventArgs e)
         {
             LoadDB();
-            LoadUser();
-            LoadCourse();
-            Admin admin = new Admin();
-            admin.Show();
         }
         private void LoadDB()
         {
-            currentUser = Prn212quizDbContext.Ins.Users.FirstOrDefault(u => u.UserId == 1);
+            currentUser =  null;
 
-            // Hiển thị tên người dùng
             if (currentUser != null)
             {
                 var userNameLabel = (Label)FindName("lblUserName");
@@ -44,111 +39,63 @@ namespace ProjectCuoiKy
             }
 
             // Tải danh sách học phần
-            var courses = Prn212quizDbContext.Ins.Courses.Include(s => s.Creator).ToList();
+            var courses = Prn212examContext.Ins.Courses.Include(s => s.Creator).ToList();
             dgCourses.ItemsSource = courses;
 
-            var user = Prn212quizDbContext.Ins.Users.Select(u => u.Username).ToList();
-
             // Tải danh sách bài kiểm tra
-            var quizzes = Prn212quizDbContext.Ins.Tests.Include(qu => qu.Creator).
-                Include(qs => qs.Course).ToList();
-            dgQuizzes.ItemsSource = quizzes;
+            var quizzes = Prn212examContext.Ins.Tests.Include(q => q.Creator).Include(qs => qs.Course).Where(t => t.Status == false).ToList();
+            dgTests.ItemsSource = quizzes;
+        }
+        private void btnLoginAsAdmin_Click(object sender, RoutedEventArgs e)
+        {
+            var currentUser = Prn212examContext.Ins.Users.FirstOrDefault(u => u.Username.Equals("admin"));
+            new Admin(currentUser).Show();
+            Close();
         }
 
-        private void LoadUser()
+        private void btnLoginAsTeacher_Click(object sender, RoutedEventArgs e)
         {
-            var user = Prn212quizDbContext.Ins.Users.Select(x => x.Username).ToList();
-            cbxCourseCreadtedBy.ItemsSource = user;
-            cbxCourseCreadtedBy.SelectedIndex = 0;
-            cbxTestCreadtedBy.ItemsSource = user;
-            cbxTestCreadtedBy.SelectedIndex = 0;
+            var currentUser = Prn212examContext.Ins.Users.FirstOrDefault(u => u.Username.Equals("teacher"));
+            new Teacher(currentUser).Show();
+            Close();
         }
 
-        private void LoadCourse()
+        private void btnLoginAsStudent_Click(object sender, RoutedEventArgs e)
         {
-            var course = Prn212quizDbContext.Ins.Courses.Select(s => s.CourseName).ToList();
-            cbxTestName.ItemsSource = course;
-            cbxTestName.SelectedIndex = 0;
+            var currentUser = Prn212examContext.Ins.Users.FirstOrDefault(u => u.Username.Equals("student"));
+            new Student(currentUser).Show();
+            Close();
         }
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            Login loginWindow = new Login();
+            Login loginWindow = new Login(this);
             loginWindow.ShowDialog();
         }
-        private void dgCourses_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+
+        private void dgTests_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
         {
-            Course c = dgCourses.SelectedItem as Course;
-            if (c != null) { 
-                txtCourseId.Text = c.CourseId.ToString();
-                txtCourseName.Text = c.CourseName;
-                cbxCourseCreadtedBy.SelectedValue = Prn212quizDbContext.Ins.Users.FirstOrDefault(s => s.UserId.Equals(c.CreatorId)).Username;
-            }
-            else
+            if (dgTests.SelectedItem is Test selectedTest)
             {
-                MessageBox.Show("Không tìm thấy Course!");
+                txtTestId.Text = selectedTest.TestId.ToString();
+                txtTestName.Text = selectedTest.TestName;
+                txtCourseName.Text = selectedTest.Course.CourseName;
+                txtTestCreadtedBy.Text = selectedTest.Creator.Username;
+                lblStatus.Content = selectedTest.Status?? false ? "Active: quiz dành cho kiểm tra" : "Inactive: quiz dành cho ôn tập";
             }
         }
 
-        private void dgQuizzes_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+        private void btnViewQuestion_Click(object sender, RoutedEventArgs e)
         {
-            Test t = dgQuizzes.SelectedItem as Test;
-            if (t != null)
+            try
             {
-                txtTestId.Text = t.TestId.ToString();
-                cbxTestName.SelectedValue = Prn212quizDbContext.Ins.Courses.FirstOrDefault(s => s.CourseId.Equals(t.CourseId)).CourseName;
-                cbxTestCreadtedBy.SelectedValue = Prn212quizDbContext.Ins.Users.FirstOrDefault(s => s.UserId.Equals(t.CreatorId)).Username;
-                chkTimerEnabled.IsChecked = t.TimerEnabled;
-                txtTestKey.Text = t.TestKey.ToString();
+                var testId = int.Parse(txtTestId.Text);
+                new JustViewQuestion(testId).Show();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Không tìm thấy Quiz!");
+                MessageBox.Show($"Hãy chọn một bài để xem câu hỏi ôn tập!!?", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
-        //Event cho Course
-        private void btnViewCourse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnInsertCourse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnUpdateCourse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnDeleteCourse_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        // event cho test
-        private void btnViewTest_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnInsertTest_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnUpdateTest_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnDeleteTest_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-
     }
 }
